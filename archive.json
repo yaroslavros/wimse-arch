@@ -1,0 +1,81 @@
+{
+  "magic": "E!vIA5L86J2I",
+  "timestamp": "2024-02-11T01:21:15.233337+00:00",
+  "repo": "jsalowey/wimse-arch",
+  "labels": [
+    {
+      "name": "bug",
+      "description": "Something isn't working",
+      "color": "d73a4a"
+    },
+    {
+      "name": "documentation",
+      "description": "Improvements or additions to documentation",
+      "color": "0075ca"
+    },
+    {
+      "name": "duplicate",
+      "description": "This issue or pull request already exists",
+      "color": "cfd3d7"
+    },
+    {
+      "name": "enhancement",
+      "description": "New feature or request",
+      "color": "a2eeef"
+    },
+    {
+      "name": "good first issue",
+      "description": "Good for newcomers",
+      "color": "7057ff"
+    },
+    {
+      "name": "help wanted",
+      "description": "Extra attention is needed",
+      "color": "008672"
+    },
+    {
+      "name": "invalid",
+      "description": "This doesn't seem right",
+      "color": "e4e669"
+    },
+    {
+      "name": "question",
+      "description": "Further information is requested",
+      "color": "d876e3"
+    },
+    {
+      "name": "wontfix",
+      "description": "This will not be worked on",
+      "color": "ffffff"
+    }
+  ],
+  "issues": [],
+  "pulls": [
+    {
+      "number": 1,
+      "id": "PR_kwDOLPTb0M5mVjuq",
+      "title": "draft workload definition",
+      "url": "https://github.com/jsalowey/wimse-arch/pull/1",
+      "state": "OPEN",
+      "author": "jsalowey",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "Initial try at the definition of a workload.",
+      "createdAt": "2024-02-08T06:17:40Z",
+      "updatedAt": "2024-02-08T06:17:40Z",
+      "baseRepository": "jsalowey/wimse-arch",
+      "baseRefName": "main",
+      "baseRefOid": "2cff224275df2c75b133c5246d9149f60760ded9",
+      "headRepository": "jsalowey/wimse-arch",
+      "headRefName": "definition-1",
+      "headRefOid": "a07e50a89e20bf2c80fe42c7ec33c9310a8ee292",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    }
+  ]
+}
