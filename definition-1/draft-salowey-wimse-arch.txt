@@ -91,8 +91,8 @@ Table of Contents
 
    *  Workload
 
-   A workload is a a running instance of software executing for a
-   specific purpose.
+   A workload is a running instance of software executing for a specific
+   purpose.
 
 3.  Use Cases
 
