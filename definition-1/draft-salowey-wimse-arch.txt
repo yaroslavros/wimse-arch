@@ -5,10 +5,10 @@
 wimse                                                         J. Salowey
 Internet-Draft                                                    Venafi
 Intended status: Informational                              Y. Rosomakho
-Expires: 11 August 2024                                                 
+Expires: 15 August 2024                                                 
                                                            H. Tschofenig
                                                                  Siemens
-                                                         8 February 2024
+                                                        12 February 2024
 
 
   Workload Identity in a Multi System Environment (WIMSE) Architecture
@@ -45,7 +45,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 11 August 2024.
+   This Internet-Draft will expire on 15 August 2024.
 
 Copyright Notice
 
@@ -91,14 +91,8 @@ Table of Contents
 
    *  Workload
 
-   A workload is a process that performs one or mote functions within a
-   system.  A workload will often make requests to and or service
-   requests from other workloads and components within a system.  Some
-   workloads may be replicas of each other in order to scale a
-   particular function within the system.  A workload is often deployed
-   in a contain virtual machine or physical host, but a collection of
-   these may be considered a workload if it is identified to the rest of
-   the system as a single entity.
+   A workload is a a running instance of software executing for a
+   specific purpose.
 
 3.  Use Cases
 
