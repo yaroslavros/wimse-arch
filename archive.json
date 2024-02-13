@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-02-11T01:21:15.233337+00:00",
+  "timestamp": "2024-02-13T01:16:27.846466+00:00",
   "repo": "jsalowey/wimse-arch",
   "labels": [
     {
@@ -49,7 +49,40 @@
       "color": "ffffff"
     }
   ],
-  "issues": [],
+  "issues": [
+    {
+      "number": 2,
+      "id": "I_kwDOLPTb0M5-7BMv",
+      "title": "Definition of Workload",
+      "url": "https://github.com/jsalowey/wimse-arch/issues/2",
+      "state": "OPEN",
+      "author": "jsalowey",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "Start simple and then perhaps add more specificity and examples that are relative to use cases. ",
+      "createdAt": "2024-02-12T04:27:47Z",
+      "updatedAt": "2024-02-12T04:27:48Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 3,
+      "id": "I_kwDOLPTb0M5-7FC8",
+      "title": "Definition of Context",
+      "url": "https://github.com/jsalowey/wimse-arch/issues/3",
+      "state": "OPEN",
+      "author": "jsalowey",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "Context is something we probably need to define.   Also it probably needs a modifier.  The charter currently uses **execution** context, but that is an existing concept that seems to mean something a bit broader, but perhaps it is OK.\r\n\r\nOther possibilities - \r\n\"Request Context\" since most of the time I think we are dealing with the work load making a request to something or processing a request from something, but there probably is a case where the workload is responding to a scheduled task. Possibly its still a request, or perhaps a slightly different context such as \"scheduled context\" or \"batch context\"\r\n\r\n\"authorization context\" - although this is one of the primary goals, it might be too narrow.\r\n\r\n\r\n\"workload context\" - doesn't seem quite right, but we could define it to be. \r\n\r\n\r\n",
+      "createdAt": "2024-02-12T04:50:13Z",
+      "updatedAt": "2024-02-12T04:50:14Z",
+      "closedAt": null,
+      "comments": []
+    }
+  ],
   "pulls": [
     {
       "number": 1,
@@ -63,18 +96,26 @@
       "labels": [],
       "body": "Initial try at the definition of a workload.",
       "createdAt": "2024-02-08T06:17:40Z",
-      "updatedAt": "2024-02-08T06:17:40Z",
+      "updatedAt": "2024-02-12T04:56:37Z",
       "baseRepository": "jsalowey/wimse-arch",
       "baseRefName": "main",
       "baseRefOid": "2cff224275df2c75b133c5246d9149f60760ded9",
       "headRepository": "jsalowey/wimse-arch",
       "headRefName": "definition-1",
-      "headRefOid": "a07e50a89e20bf2c80fe42c7ec33c9310a8ee292",
+      "headRefOid": "41106e3cc70c3c249c8e3dd2e2fce2ca7f7e7466",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "jsalowey",
+          "authorAssociation": "OWNER",
+          "body": "Closes issue #2 ",
+          "createdAt": "2024-02-12T04:36:23Z",
+          "updatedAt": "2024-02-12T04:36:23Z"
+        }
+      ],
       "reviews": []
     }
   ]
