@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-02-18T01:20:23.240113+00:00",
+  "timestamp": "2024-02-20T01:14:54.729217+00:00",
   "repo": "jsalowey/wimse-arch",
   "labels": [
     {
@@ -81,6 +81,38 @@
       "updatedAt": "2024-02-12T04:50:14Z",
       "closedAt": null,
       "comments": []
+    },
+    {
+      "number": 4,
+      "id": "I_kwDOLPTb0M5_oMpV",
+      "title": "Basic text on use cases and architecture",
+      "url": "https://github.com/jsalowey/wimse-arch/issues/4",
+      "state": "OPEN",
+      "author": "jsalowey",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "Need basic start to use cases and/or architecture. \r\n\r\nMicroservice to Microservice authentication\r\nCarrying Context\r\netc. \r\n\r\n",
+      "createdAt": "2024-02-18T23:48:28Z",
+      "updatedAt": "2024-02-18T23:48:28Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 5,
+      "id": "I_kwDOLPTb0M5_oMu1",
+      "title": "Basic Security Considerations",
+      "url": "https://github.com/jsalowey/wimse-arch/issues/5",
+      "state": "OPEN",
+      "author": "jsalowey",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-02-18T23:49:27Z",
+      "updatedAt": "2024-02-18T23:49:27Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
@@ -116,6 +148,86 @@
           "updatedAt": "2024-02-12T04:36:23Z"
         }
       ],
+      "reviews": []
+    },
+    {
+      "number": 6,
+      "id": "PR_kwDOLPTb0M5nVUZm",
+      "title": "Some references",
+      "url": "https://github.com/jsalowey/wimse-arch/pull/6",
+      "state": "MERGED",
+      "author": "jsalowey",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-02-19T22:00:57Z",
+      "updatedAt": "2024-02-19T22:01:14Z",
+      "baseRepository": "jsalowey/wimse-arch",
+      "baseRefName": "main",
+      "baseRefOid": "2cff224275df2c75b133c5246d9149f60760ded9",
+      "headRepository": "jsalowey/wimse-arch",
+      "headRefName": "references",
+      "headRefOid": "2bd2c0159d007fd7ac510a5174e8a51feca7716a",
+      "closedAt": "2024-02-19T22:01:14Z",
+      "mergedAt": "2024-02-19T22:01:14Z",
+      "mergedBy": "jsalowey",
+      "mergeCommit": {
+        "oid": "aca2dac6d0ccf037d0c7146ee63b5e891b5de869"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 7,
+      "id": "PR_kwDOLPTb0M5nVUqT",
+      "title": "Initial Use Cases",
+      "url": "https://github.com/jsalowey/wimse-arch/pull/7",
+      "state": "OPEN",
+      "author": "jsalowey",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "Closes Issue #4 ",
+      "createdAt": "2024-02-19T22:02:09Z",
+      "updatedAt": "2024-02-19T22:02:09Z",
+      "baseRepository": "jsalowey/wimse-arch",
+      "baseRefName": "main",
+      "baseRefOid": "aca2dac6d0ccf037d0c7146ee63b5e891b5de869",
+      "headRepository": "jsalowey/wimse-arch",
+      "headRefName": "jsalowey-use-case",
+      "headRefOid": "2eac2615fa9af8ea8d27a1aa6ec08756bd8634cd",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 8,
+      "id": "PR_kwDOLPTb0M5nVUwQ",
+      "title": "Initial Security Considerations",
+      "url": "https://github.com/jsalowey/wimse-arch/pull/8",
+      "state": "OPEN",
+      "author": "jsalowey",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "closes issue #5",
+      "createdAt": "2024-02-19T22:02:36Z",
+      "updatedAt": "2024-02-19T22:02:36Z",
+      "baseRepository": "jsalowey/wimse-arch",
+      "baseRefName": "main",
+      "baseRefOid": "aca2dac6d0ccf037d0c7146ee63b5e891b5de869",
+      "headRepository": "jsalowey/wimse-arch",
+      "headRefName": "jsalowey-sec-cons",
+      "headRefOid": "b428122ec72ae43749428400dab1bd4f4729b972",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
       "reviews": []
     }
   ]
