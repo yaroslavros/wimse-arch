@@ -244,7 +244,7 @@ Table of Contents
    (https://github.com/spiffe/spiffe/blob/main/standards/SPIFFE-ID.md).
 
    While IP addresses are allowed as host names in the URI encoding
-   rules, they MUT NOT be used to represent trust domains except in the
+   rules, they MUST NOT be used to represent trust domains except in the
    case where they are needed for compatibility with legacy naming
    schemes.
 
