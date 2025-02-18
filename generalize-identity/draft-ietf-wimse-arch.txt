@@ -844,12 +844,14 @@ Table of Contents
    For example, in a microservices architecture, an internal service may
    use workload-specific identities that include fine-grained details
    such as instance names or deployment-specific attributes.  When
-   communicating with external systems, exposing such details may
-   inadvertently reveal internal scaling strategies or failover
-   mechanisms.  In such cases, an identity proxy at the trust boundary
-   can generalize the workload identity by replacing the specific
-   microservice instance name with the name of the overall service.
-   This allows external parties to recognize the service while
+   interacting with external systems, exposing such details may
+   inadvertently provide attackers with insights into the internal
+   deployment structure, scaling strategies, security policies,
+   technologies in use, or failover mechanisms, potentially giving them
+   a tactical advantage.  In such cases, an identity proxy at the trust
+   boundary can generalize the workload identity by replacing the
+   specific microservice instance name with the name of the overall
+   service.  This allows external parties to recognize the service while
    abstracting internal deployment details.
 
    A security gateway implementing Identity Proxy functionality at the
