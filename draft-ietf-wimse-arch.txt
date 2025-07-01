@@ -5,10 +5,10 @@
 Workload Identity in Multi System Environments                J. Salowey
 Internet-Draft                                                    Venafi
 Intended status: Informational                              Y. Rosomakho
-Expires: 15 December 2025                                        Zscaler
+Expires: 2 January 2026                                          Zscaler
                                                            H. Tschofenig
                                                                    H-BRS
-                                                            13 June 2025
+                                                             1 July 2025
 
 
   Workload Identity in a Multi System Environment (WIMSE) Architecture
@@ -51,7 +51,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 15 December 2025.
+   This Internet-Draft will expire on 2 January 2026.
 
 Copyright Notice
 
@@ -709,27 +709,8 @@ Table of Contents
    audit trails as described in Section 2.3.4.
 
    Authentication mechanisms are used to establish the identity of the
-   peer workload.  This identity is composed of many attributes, which
-   may include:
-
-   *  Trigger Information
-
-   *  Service Name
-
-   *  Instance Name
-
-   *  Role
-
-   *  Environment
-
-   *  Trust Domain
-
-   *  Software Attestation
-
-   *  Hardware Attestation
-
-   There are several methods defined to perform service-to-service
-   authentication.  The most common mechanisms include:
+   peer workload.  There are several methods defined to perform service-
+   to-service authentication.  The most common mechanisms include:
 
    *  TLS authentication of the server using X.509 certificates and
       client bearer token, encoded as JWTs.
@@ -841,6 +822,13 @@ Table of Contents
    *  Security context claims
 
    *  Delegation/impersonation metadata (if present)
+
+   To avoid inadvertent disclosure of sensitive information, workloads
+   and services generating audit logs MUST NOT log secrets such as
+   bearer tokens, private keys, or passwords.  If logging of credential-
+   related data is necessary for diagnostic or policy purposes, these
+   values MUST be redacted, hashed, or otherwise sanitised to prevent
+   misuse.
 
    WIMSE systems SHOULD ensure audit logs are tamper-evident and
    securely stored.  Logs may be forwarded to centralized security
@@ -1067,9 +1055,9 @@ Table of Contents
               Campbell, B., Salowey, J., Schwenkschuster, A., and Y.
               Sheffer, "WIMSE Workload to Workload Authentication", Work
               in Progress, Internet-Draft, draft-ietf-wimse-s2s-
-              protocol-04, 19 May 2025,
+              protocol-05, 19 June 2025,
               <https://datatracker.ietf.org/doc/html/draft-ietf-wimse-
-              s2s-protocol-04>.
+              s2s-protocol-05>.
 
    [RFC9683]  Fedorkow, G. C., Ed., Voit, E., and J. Fitzgerald-McKay,
               "Remote Integrity Verification of Network Devices
