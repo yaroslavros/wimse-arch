@@ -5,10 +5,10 @@
 Workload Identity in Multi System Environments                J. Salowey
 Internet-Draft                                                  CyberArk
 Intended status: Informational                              Y. Rosomakho
-Expires: 12 March 2026                                           Zscaler
+Expires: 13 March 2026                                           Zscaler
                                                            H. Tschofenig
                                                                    H-BRS
-                                                        8 September 2025
+                                                        9 September 2025
 
 
   Workload Identity in a Multi System Environment (WIMSE) Architecture
@@ -51,7 +51,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 12 March 2026.
+   This Internet-Draft will expire on 13 March 2026.
 
 Copyright Notice
 
@@ -714,12 +714,12 @@ Table of Contents
    Authentication mechanisms are used to establish the identity of the
    peer workload before secure communication can proceed.
 
-   Workloads often obtain their identity without relying on pre-
-   provisioned long-lived secrets.  Instead, identity is established
-   through mechanisms provided by the infrastructure that allow a
-   workload to prove it is running in a given environment and obtain
-   short-lived credentials.  Common delivery patterns are described in
-   Section 3 of [I-D.ietf-wimse-workload-identity-practices].
+   Workloads often obtain their credentials without relying on pre-
+   provisioned long-lived secrets.  Instead, short-lived credentials are
+   established through mechanisms provided by the infrastructure that
+   allow a workload to prove it is running in a given environment.
+   Common delivery patterns are described in Section 3 of
+   [I-D.ietf-wimse-workload-identity-practices].
 
    Once credentials are issued, they are conveyed to peers using common
    security protocols.  Typical mechanisms include:
