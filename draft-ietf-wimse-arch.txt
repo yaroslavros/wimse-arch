@@ -5,10 +5,10 @@
 Workload Identity in Multi System Environments                J. Salowey
 Internet-Draft                                                  CyberArk
 Intended status: Informational                              Y. Rosomakho
-Expires: 12 March 2026                                           Zscaler
+Expires: 23 August 2026                                          Zscaler
                                                            H. Tschofenig
                                                                    H-BRS
-                                                        8 September 2025
+                                                        19 February 2026
 
 
   Workload Identity in a Multi System Environment (WIMSE) Architecture
@@ -51,11 +51,11 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 12 March 2026.
+   This Internet-Draft will expire on 23 August 2026.
 
 Copyright Notice
 
-   Copyright (c) 2025 IETF Trust and the persons identified as the
+   Copyright (c) 2026 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -90,6 +90,7 @@ Table of Contents
        3.3.7.  Delegation and Impersonation
        3.3.8.  Asynchronous and Batch Requests
        3.3.9.  Cross-boundary Workload Identity
+       3.3.10. AI and ML-Based Intermediaries
    4.  Security Considerations
      4.1.  Traffic Interception
      4.2.  Information Disclosure
@@ -100,6 +101,7 @@ Table of Contents
      6.1.  Normative References
      6.2.  Informative References
    Acknowledgments
+   Changes since draft -05
    Authors' Addresses
 
 1.  Introduction
@@ -118,22 +120,23 @@ Table of Contents
    used to authenticate communications between workloads.
 
    This architecture considers two ways to express identity information:
-   X.509 certificates often used in the TLS layer and JSON Web Tokens
-   (JWTs) used at the application layer.  The applicability of given
-   token format depends on application and security context and will be
-   explored in later sections.
+   X.509 certificates, which are often used in the TLS layer, and JSON
+   Web Tokens (JWTs) used at the application layer.  The applicability
+   of given token format depends on application and security context and
+   will be explored in later sections.
 
    Once the workload is started and has obtained identity information,
-   it can start performing its functions.  Once the workload is invoked
+   it can start performing its functions.  When the workload is invoked
    it may require interaction with other workloads.  An example of such
    interaction is shown in [I-D.ietf-oauth-transaction-tokens] where an
    externally-facing endpoint is invoked using conventional
    authorization mechanism, such as an OAuth 2.0 access token.  The
-   interaction with other workload may require the security context
+   interaction with another workload may require the security context
    associated with the authorization to be passed along the call chain.
 
    In the rest of the document we describe terminology and use cases,
-   discuss details of the architecture, and discuss threats.
+   discuss details of the architecture, and describe security
+   considerations for this architecture.
 
 2.  Conventions and Definitions
 
@@ -170,15 +173,15 @@ Table of Contents
 
    *  Identity Proxy
 
-   Identity proxy is an intermediary that can inspect, replace or
-   augment workload identity and security context information.  Identity
-   proxy can be a capability of a transparent network service, such as a
-   security gateway, or it can be implemented in a service performing
-   explicit connection processing, such as an ingress gateway or a
-   Content Delivery Network (CDN) service.  Identity proxy MAY introduce
-   additional context based on source identifier, communication
-   properties and administrative policy.  This context MAY be
-   communicated as a transaction token
+   The identity proxy is an intermediary that can inspect, replace or
+   augment workload identity and security context information.  A
+   transparent network service such as a security gateway may act as an
+   identity proxy, or the role can be implemented in a service
+   performing explicit connection processing, such as an ingress gateway
+   or a Content Delivery Network (CDN) service.  The identity proxy MAY
+   introduce additional context based on source identifier,
+   communication properties and administrative policy.  This context MAY
+   be communicated as a transaction token
    [I-D.ietf-oauth-transaction-tokens].
 
    *  Remote Attestation
@@ -191,11 +194,11 @@ Table of Contents
    *  Workload Identity Credential
 
    A credential that contains a workload identifier used for service to
-   service authentication.  The credential is bound to a cryptographic
-   key and requires that the presenter provide proof of possession of
-   the secret key material.  Examples of this credential include
-   Workload Identity Certificates and the Workload Identity Token
-   defined in [I-D.ietf-wimse-s2s-protocol].  Deployments may also
+   service authentication.  The credential may be bound to a
+   cryptographic key and may require that the presenter provide proof of
+   possession of the secret key material.  Examples of such credentials
+   include Workload Identity Certificates and the Workload Identity
+   Token defined in [I-D.ietf-wimse-s2s-protocol].  Deployments may also
    deploy bearer tokens as workload identity credentials to interoperate
    with legacy systems that do not support credentials bound to keys.
 
@@ -211,9 +214,9 @@ Table of Contents
 
 3.1.  Workload Identity Concepts
 
-   Workload identity construct consists of three basic building blocks:
-   trust domain, workload identifier and identity credentials.  These
-   components are sufficient for establishing authentication,
+   The Workload identity architecture consists of three basic building
+   blocks: trust domain, workload identifier and identity credentials.
+   These components are sufficient for establishing authentication,
    authorization and accounting processes.  More complex workload
    identity constructs can be created from these basic building blocks.
 
@@ -268,7 +271,7 @@ Table of Contents
    A workload identifier only has a meaning within the scope of a
    specific issuer.  Two identities of the same value signed by
    different issuers may or may not refer to the same workload.  In
-   order to avoid collisions identity URIs SHOULD specify, in the URI's
+   order to avoid collisions, identity URIs SHOULD specify, in the URI's
    "authority" field, the trust domain associated with an issuer that is
    selected from a global name space such as host domains.  However, the
    validator of an identity credential MUST make sure that they are
@@ -279,11 +282,11 @@ Table of Contents
 3.1.3.  Workload Identity Credentials
 
    An agent provisions the identity credentials to the workload.  These
-   credentials are represented in form of JWT tokens and/or X.509
+   credentials are represented in the form of JWT tokens and/or X.509
    certificates.
 
    JWT bearer tokens are presented to another party as a proof of
-   identity.  They are signed to prevent forgery, however since these
+   identity.  They may be signed to prevent forgery, however since these
    credentials are often not bound to other information it is possible
    that they could be stolen and reused elsewhere.  To mitigate these
    risks and make the token more generally useful the WIMSE architecture
@@ -307,42 +310,42 @@ Table of Contents
 
 3.2.1.  Basic Workload Identity Scenario
 
-                       +-------------------------------Trust Boundary---------------+
-                       |                                                            |
-                       |                                                            |
-                    +-----+         +--------------+                                |
-                    |     |         |              |       (3)                      |
-                    |     |     +--->  Workload 1  +-------------------+            |
-                    |  G  |     |   |              |                   |            |
-                    |  a  |     |   +-------^------+                   |            |
-                    |  t  |     |           |                          |            |
-+------------+      |  e  |     |           | (1)                      |            |
-|            | (2)  |  w  | (3) |           |                          |            |
-| App Client +----->|  a  +-----+   +-------+-------+                  |            |
-|            |      |  y  |         |               |          +-------+------+     |
-+------------+      |     +-----+   | CA/Credential |    (1)   |              |     |
-                    |  S  | (4) |   |    Service    +---------->   Workload 3 |     |
-                    |  e  |     |   |               |          |              |     |
-                    |  r  |     |   +-------+-------+          +-------+------+     |
-                    |  v  |     |           |                          |            |
-                    |  i  |     |           | (1)                      |            |
-                    |  c  |     |           |                          |            |
-                    |  e  |     |   +-------v------+                   |            |
-                    |     |     |   |              |      (4)          |            |
-                    |     |     +--->  Workload 2  +-------------------+            |
-                    |     |         |              |                                |
-                    +-----+         +--------------+                                |
-                       |                                                            |
-                       |                                                            |
-                       |                                                            |
-                       +------------------------------------------------------------+
+                        +--------------------------------Trust Boundary---------------+
+                        |                                                             |
+                    .---+-.                                                           |
+                    | .---+-.         +--------------+                                |
+                    | |     |         |              |       (3)                      |
+                    | |     |     +--->  Workload 1  +-------------------+            |
+                    | |  G  |     |   |              |                   |            |
+                    | |  a  |     |   +-------^------+                   |            |
+                    | |  t  |     |           |                          |            |
++------------+      | |  e  |     |           | (1)                      |            |
+|            | (2)  | |  w  | (3) |           |                          |            |
+| App Client +----->| |  a  +-----+   +-------+-------+                  |            |
+|            |      | |  y  |         |               |          +-------+------+     |
++------------+      | |     +-----+   | CA/Credential |    (1)   |              |     |
+                    | |  S  | (4) |   |    Service    +---------->   Workload 3 |     |
+                    | |  e  |     |   |               |          |              |     |
+                    | |  r  |     |   +-------+-------+          +-------+------+     |
+                    | |  v  |     |           |                          |            |
+                    | |  i  |     |           | (1)                      |            |
+                    | |  c  |     |           |                          |            |
+                    | |  e  |     |   +-------v------+                   |            |
+                    | |     |     |   |              |      (4)          |            |
+                    | |     |     +--->  Workload 2  +-------------------+            |
+                    '-+     |         |              |                                |
+                      '-+---'         +--------------+                                |
+                        |                                                             |
+                        |                                                             |
+                        |                                                             |
+                        +-------------------------------------------------------------+
 
          Figure 1: Basic example workload application system.
 
    The above diagram presents a basic workload application system.  The
    large box represents a trust domain within which the workload
    application is hosted.  Within this example there are three
-   workloads, a gateway, that accepts external clients and a CA/
+   workloads, a gateway service, that accepts external clients and a CA/
    credential service that issues workload identity credentials for the
    trust domain.  External to the workload application system there is
    an application client that calls APIs on workloads.
@@ -368,18 +371,19 @@ Table of Contents
    *  Gateway Service
 
    A gateway service typically acts as an intermediary between the
-   internal application trust domain and external systems.  The gateway
-   is responsible for ensuring appropriate isolation between external
-   and internal domains.  It also routes incoming requests to the
-   correct workload.  The gateway MAY also implement identity proxy
-   functionality including authentication, token exchange, and token
-   transformation.
+   internal application trust domain and external systems.  It typically
+   consists of multiple resilient instances.  The gateway is responsible
+   for ensuring appropriate isolation between external and internal
+   domains.  It also routes incoming requests to the correct workload.
+   The gateway MAY also implement identity proxy functionality including
+   authentication, token exchange, and token transformation.
 
    *  CA/Credential Service
 
    In this diagram the token/Credential service is a service responsible
    for issuing workload identities to workloads in the same trust
-   domain.  The credentials are often X.509 based or JWT based.
+   domain.  The credentials are often X.509 certificate-based or JWT-
+   based.
 
    High level flows within the diagram
 
@@ -420,10 +424,10 @@ Table of Contents
    the Workload Identity Credentials are workload identity certificates
    then this can happen through TLS client authentication (mutual TLS).
    Alternatively, the workloads can use a JWT based authentication
-   mechanism to authenticate on another.  Workload three can use the
+   mechanism to authenticate one another.  Workload 3 can use the
    authenticated identity of workload 1 to determine which APIs workload
-   1 is authorized 2 and to associated the authenticated identity with
-   logs and other audit information.
+   1 is authorized to invoke, and to associated the authenticated
+   identity with logs and other audit information.
 
    *  (4) API request to workload 2
 
@@ -439,35 +443,35 @@ Table of Contents
 
 3.2.2.  Context and workload Identity
 
-                    +-----------------------Trust Boundary---------+
-                    |                                              |
-                    |                      +----------------+      |
-                 +--+--+                   |                |      |
-                 |     +------------------>|    Context     |      |
-                 |     |         (3)       |                |      |
-                 |     |<------------------+    Service     |      |
-                 |     |         (c)       |                |      |
-                 |  G  |                   +----------------+      |
-                 |  a  |                                           |
-      (1)        |  t  |                                           |
-   +-------+     |  e  |      +------------+      +-------------+  |
-   |   App | (2) |  w  | (4)  |            |  (5) |             |  |
-   | Client+---->|  a  +----->| workload 1 +----->|  workload 2 |  |
-   +-------+ (a) |  y  | (c)  |            |  (c) |             |  |
-                 |     |      +------------+      +-------------+  |
-                 |  S  |                                           |
-                 |  e  |                                           |
-                 |  r  |                                           |
-                 |  v  |                                           |
-                 |  i  |                                           |
-                 |  c  |                                           |
-                 |  e  |                                           |
-                 |     |                                           |
-                 +--+--+                                           |
-                    |                                              |
-                    |                                              |
-                    |                                              |
-                    +----------------------------------------------+
+                     +------------------------Trust Boundary---------+
+                     |                                               |
+                 .---+-.                     +----------------+      |
+                 | .---+-.                   |                |      |
+                 | |     +------------------>|    Context     |      |
+                 | |     |         (3)       |                |      |
+                 | |     |<------------------+    Service     |      |
+                 | |     |         (c)       |                |      |
+                 | |  G  |                   +----------------+      |
+                 | |  a  |                                           |
+      (1)        | |  t  |                                           |
+   +-------+     | |  e  |      +------------+      +-------------+  |
+   |   App | (2) | |  w  | (4)  |            |  (5) |             |  |
+   | Client+---->| |  a  +----->| workload 1 +----->|  workload 2 |  |
+   +-------+ (a) | |  y  | (c)  |            |  (c) |             |  |
+                 | |     |      +------------+      +-------------+  |
+                 | |  S  |                                           |
+                 | |  e  |                                           |
+                 | |  r  |                                           |
+                 | |  v  |                                           |
+                 | |  i  |                                           |
+                 | |  c  |                                           |
+                 | |  e  |                                           |
+                 '-+     |                                           |
+                   '-+---'                                           |
+                     |                                               |
+                     |                                               |
+                     |                                               |
+                     +-----------------------------------------------+
 
            Figure 2: Context example workload application system.
 
@@ -533,61 +537,68 @@ Table of Contents
 
 3.2.3.  Cross-Domain Communication
 
-                    +--------------------------Trust Boundary------+
-                    |                                              |
-                 +--+--+                                           |
-                 |     |                                           |
-                 |  G  |                                           |
-                 |  a  |                                           |
-                 |  t  |                                           |
-   +-------+     |  e  |      +------------+      +-------------+  |
-   |   App | (1) |  w  | (2)  |            |  (4) |             |  |
-   | Client+---->|  a  +----->| workload 1 +----->|  workload 2 |  |
-   +-------+ (a) |  y  | (c)  |            |  (c) |             |  |
-                 |     |      +-+---------++      ++--------+---+  |
-                 |  S  |        |                  |        |      |
-                 |  e  |     (3)|               (5)|(c)     |      |
-                 |  r  |        |                  |        |      |
-                 |  v  |        |       +-+--------++       |      |
-                 |  i  |        |       |   Token   |       |      |
-                 |  c  |        |       |           |    (6)|(t)   |
-                 |  e  |        |       |  Service  |       |      |
-                 |     |        |       +-----------+       |      |
-                 +--+--+        |                           |      |
-                    |           |                           |      |
-                    |           |                           |      |
-                    |           |                           |      |
-                    +-----------+---------------------------+------+
-                                |                           |
-                                |                           |
-                                |                           |
-                                |                           |
-                                |                           |
-                        +-------v--------+     +------------v--+
-                        | Infrastructure |     |    External   |
-                        |                |     |               |
-                        |    Service     |     |    Service    |
-                        +----------------+     +---------------+
+                     +---------------------------Trust Boundary------+
+                     |                                               |
+                 .---+-.                                             |
+                 | .---+-.                                           |
+                 | |     |                                           |
+                 | |  G  |                                           |
+                 | |  a  |                                           |
+                 | |  t  |                                           |
+   +-------+     | |  e  |      +------------+      +-------------+  |
+   |   App | (1) | |  w  | (2)  |            |  (4) |             |  |
+   | Client+---->| |  a  +----->| workload 1 +----->|  workload 2 |  |
+   +-------+ (a) | |  y  | (c)  |            |  (c) |             |  |
+                 | |     |      +-+----------+      +^----^----+--+  |
+                 | |  S  |        |                  |    |    |     |
+                 | |  e  |     (3)|            (5)(c)|(t) |    |     |
+                 | |  r  |        |                  |    |    |     |
+                 | |  v  |        |       +-+--------v+   |    |     |
+                 | |  i  |        |       |   Token   |   |    |     |
+                 | |  c  |        |       |           |   | (7)|(a)  |
+                 | |  e  |        |       |  Service  |   |    |     |
+                 '-+     |        |       +-----------+   |    |     |
+                   '-+---'        |                       |    |     |
+                     |            |                       |    |     |
+                     |            |                 (6)(t)|(a) |     |
+                     |            |                       |    |     |
+                     +------------+-----------------------+----+-----+
+                                  |                       |    |
+                                  |             +-+-------V-+  |
+                                  |             |  External |  |
+                                  |             |   Token   |  |
+                                  |             |  Service  |  |
+                                  |             +-----------+  |
+                                  |                            |
+                        +---------v------+     +---------------v-+
+                        | Infrastructure |     |     External    |
+                        |                |     |                 |
+                        |    Service     |     |     Service     |
+                        +----------------+     +-----------------+
 
           Figure 3: External request workload application system.
 
    In many applications workloads must make requests of infrastructure
-   that operates as a different trust domain or external services that
-   are in a separate trust domain.  Figure Figure 3 shows this scenario.
-   The scenario shows some new components described below.  Components
-   and interactions from previous scenarios are still relevant to this
-   example, but are omitted for simplicity.
+   or external services that operate as a different trust domain.  Steps
+   5-7 of Figure 3 involve a generic cross domain pattern as described
+   in [I-D.draft-ietf-oauth-identity-chaining].  This document refers to
+   a token service which performs a similar functions with respect to
+   token issuance as the authorization service in
+   [I-D.draft-ietf-oauth-identity-chaining].  The scenario shows some
+   new components described below.  Components and interactions from
+   previous scenarios are still relevant to this example, but are
+   omitted for simplicity.
 
    *  Token Service - the token service is responsible for exchanging
       information that is internal to the system such as service
       identity and/or security context information for a token that can
-      be presented to an external service to gain access to
-      infrastructure or an external service.  Note that in some cases
-      the token service may reside in a different trust domain or there
-      may be token services in multiple trust domains.  In some cases
-      the workload will need to contact token services in various
-      domains in order to gain access to infrastructure or external
-      service.
+      be presented to an external token service in another trust domain
+      to gain access to infrastructure or an external service.
+
+   *  External Token Service - the external token service is part of
+      another trust domain.  Workloads in the originating trust domain
+      contact this service to get an access token to authenticate to
+      external services.
 
    *  Infrastructure Service - this service is often part of the
       application, but it is managed by an infrastructure provider and
@@ -617,17 +628,23 @@ Table of Contents
    *  (5) Workload 2 determines it needs to communicate with an external
       service.  In order to gain access to this service it must first
       obtain a token/credential (t) that it can use externally.  It
-      authenticates to the token service using its workload identity and
-      provides security context information.  The token service
-      determines what type of externally usable token to issue to the
-      workload.
+      authenticates to the token service using its workload identity
+      credential (c) and provides security context information.  The
+      token service determines what type of externally usable token to
+      issue to the workload for use with the external token service.
 
-   *  (6) Workload 2 uses this new token/credential (t) to access the
-      external service.
+   *  (6) Workload 2 uses this new token/credential (t) to request an
+      access token (a) for the external service from the token service.
 
-   *  Note that in (3) and (6) the workload may need to authenticate to
-      an external token service to obtain an access token to access the
-      system in the foreign trust domain.
+   *  (7) Workload 2 uses the access token (a) to access the external
+      service in the other trust domain.
+
+   There can be variations on cross domain workflows.  For example, in
+   step 3 the workload was able to use its Workload Identity Credentials
+   to directly access an infrastructure service.  It also may be
+   possible for an workload to request an access token for an external
+   service using its Workload Identity Credentials directly with an
+   external token service.
 
 3.3.  Workload Identity Use Cases
 
@@ -715,17 +732,25 @@ Table of Contents
    audit trails as described in Section 3.3.4.
 
    Authentication mechanisms are used to establish the identity of the
-   peer workload.  There are several methods defined to perform service-
-   to-service authentication.  The most common mechanisms include:
+   peer workload before secure communication can proceed.
 
-   *  TLS authentication of the server using X.509 certificates and
-      client bearer token, encoded as JWTs.
+   Workloads often obtain their credentials without relying on pre-
+   provisioned long-lived secrets.  Instead, short-lived credentials are
+   established through mechanisms provided by the infrastructure that
+   allow a workload to prove it is running in a given environment.
+   Common delivery patterns are described in Section 3 of
+   [I-D.ietf-wimse-workload-identity-practices].
+
+   Once credentials are issued, they are conveyed to peers using common
+   security protocols.  Typical mechanisms include:
 
    *  Mutual TLS authentication using X.509 certificate for both client
-      and server.
+      and server as described in Section 4 of
+      [I-D.ietf-wimse-s2s-protocol].
 
-   *  TLS authentication of the server and HTTP request signing using a
-      secret key.
+   *  Application level authentication using cryptographic credentials
+      passed within HTTP message as described in Section 3 of
+      [I-D.ietf-wimse-s2s-protocol].
 
    These authentication mechanisms establish a cryptographically
    verifiable identity for the communicating party, which can then be
@@ -793,6 +818,17 @@ Table of Contents
    upstream workloads are authorized to act on behalf of end-users or
    other services, within the scope of their issued credentials and
    policy.
+
+   A key architectural consideration is where authorization is
+   evaluated.  For most workload-to-workload interactions (e.g., REST
+   APIs, gRPC, or pub/sub flows), authorization is performed by the
+   callee, ensuring that the target workload enforces its own access
+   policies.  But in some scenarios, such as database access or
+   operations on complex back-end systems, authorization decisions may
+   be too fine-grained or application-specific to be enforced by the
+   subject of the operation.  In these cases, authorization MAY be
+   performed by the caller, provided that the caller has sufficient
+   context and policy information to make a correct decision.
 
 3.3.4.  Audit Trails
 
@@ -955,6 +991,54 @@ Table of Contents
    it unmodified or replace it with its own identity to be validated by
    the destination.
 
+3.3.10.  AI and ML-Based Intermediaries
+
+   Emerging agentic AI systems and other ML-based intermediaries
+   introduce new considerations for workload identity and security
+   context propagation.  These systems often act as autonomous agents
+   that perform tasks on behalf of an upstream principal (such as a user
+   or service) and then invoke downstream workloads as part of multi-
+   step workflows.
+
+   From WIMSE perspective, AI intermediaries are a special case of
+   delegated workloads (see Section 3.3.7).  They inherit the upstream
+   principal's security context and are expected to operate strictly
+   within the constraints of that delegation.  When invoking downstream
+   workloads, the agent SHOULD propagate the upstream security context,
+   unless it has been explicitly authorized to translate or reduce its
+   scope.
+
+   In some cases, AI systems may generate requests that are not
+   attributable to a specific upstream principal.  Such autonomous
+   actions MUST be clearly distinguished from delegated ones, for
+   example by using separate workload identities or token scopes.
+   Because AI intermediaries may chain requests across multiple
+   services, there is an elevated risk of privilege escalation if
+   security context is propagated beyond the intended trust domain.
+   Mechanisms such as cryptographic binding of delegation tokens or
+   attestation of intermediary behavior can help mitigate these risks.
+
+   A further consideration arises when AI agents interact with other AI
+   agents.  In these cases, each agent may act both as a delegated
+   workload and as a delegator, creating multi-hop delegation chains.
+   To avoid ambiguity, each hop in the chain MUST explicitly scope and
+   re-bind the security context so that downstream services can reliably
+   evaluate provenance and authorization boundaries.  Without such
+   controls, there is a risk that a chain of AI-to-AI interactions could
+   unintentionally extend authority far beyond what was originally
+   granted.
+
+   +---------+        +-------------+        +-------------+        +-------------+
+   |  User / +------->|  AI Agent   +------->|  AI Agent   +------->|  Workload   |
+   | Service |        |  (Agent A)  |        |  (Agent B)  |        |  Downstream |
+   +---------+        +-------------+        +-------------+        +-------------+
+        |                    |                      |                      |
+        |     Initial        |  Delegated / Scoped  |  Delegated / Scoped  |
+        | Security Context   |   Security context   |   Security context   |
+        +------------------->+--------------------->+--------------------->|
+
+                   Figure 6: AI agent communication
+
 4.  Security Considerations
 
 4.1.  Traffic Interception
@@ -1050,20 +1134,35 @@ Table of Contents
 
 6.2.  Informative References
 
+   [I-D.draft-ietf-oauth-identity-chaining]
+              Schwenkschuster, A., Kasselman, P., Burgin, K., Jenkins,
+              M. J., and B. Campbell, "OAuth Identity and Authorization
+              Chaining Across Domains", Work in Progress, Internet-
+              Draft, draft-ietf-oauth-identity-chaining-08, 9 February
+              2026, <https://datatracker.ietf.org/doc/html/draft-ietf-
+              oauth-identity-chaining-08>.
+
    [I-D.ietf-oauth-transaction-tokens]
               Tulshibagwale, A., Fletcher, G., and P. Kasselman,
               "Transaction Tokens", Work in Progress, Internet-Draft,
-              draft-ietf-oauth-transaction-tokens-06, 28 July 2025,
+              draft-ietf-oauth-transaction-tokens-07, 24 January 2026,
               <https://datatracker.ietf.org/doc/html/draft-ietf-oauth-
-              transaction-tokens-06>.
+              transaction-tokens-07>.
 
    [I-D.ietf-wimse-s2s-protocol]
               Campbell, B., Salowey, J. A., Schwenkschuster, A., and Y.
-              Sheffer, "WIMSE Workload to Workload Authentication", Work
+              Sheffer, "WIMSE Workload-to-Workload Authentication", Work
               in Progress, Internet-Draft, draft-ietf-wimse-s2s-
-              protocol-06, 4 July 2025,
+              protocol-07, 16 October 2025,
               <https://datatracker.ietf.org/doc/html/draft-ietf-wimse-
-              s2s-protocol-06>.
+              s2s-protocol-07>.
+
+   [I-D.ietf-wimse-workload-identity-practices]
+              Schwenkschuster, A. and Y. Rosomakho, "Workload Identity
+              Practices", Work in Progress, Internet-Draft, draft-ietf-
+              wimse-workload-identity-practices-03, 17 October 2025,
+              <https://datatracker.ietf.org/doc/html/draft-ietf-wimse-
+              workload-identity-practices-03>.
 
    [RFC9683]  Fedorkow, G. C., Ed., Voit, E., and J. Fitzgerald-McKay,
               "Remote Integrity Verification of Network Devices
@@ -1074,6 +1173,19 @@ Table of Contents
 Acknowledgments
 
    Todo: Add your name here.
+
+Changes since draft -05
+
+   *  Update to gateway service definition and diagram
+
+   *  alignment of cross-domain scenario with OAUTH cross-domain
+      chaining
+
+   *  rework of authentication section
+
+   *  added audit section
+
+   *  added AI use case
 
 Authors' Addresses
 
