@@ -692,7 +692,7 @@ Table of Contents
 
    The diagram below is illustrative rather than normative.  It shows
    one common logical layout for how provisioning, connection setup,
-   application-level authentication, authorization, and response relate
+   application-layer authentication, authorization, and response relate
    when two workloads communicate.
 
    +------------+               +------------+
@@ -741,7 +741,7 @@ Table of Contents
        security mechanism.
 
    3.  Workload A sends a request to Workload B.  This may include
-       application-level authentication using a Workload Identity Token
+       application-layer authentication using a Workload Identity Token
        and proof of possession, as defined in the credentials and
        protocol documents.  Workload B authenticates Workload A.
 
@@ -911,7 +911,7 @@ Table of Contents
       and server as described in Section 4 of
       [I-D.ietf-wimse-s2s-protocol].
 
-   *  Application level authentication using cryptographic credentials
+   *  Application-layer authentication using cryptographic credentials
       passed within HTTP message as described in Section 3 of
       [I-D.ietf-wimse-s2s-protocol].
 
@@ -1017,7 +1017,7 @@ Table of Contents
    Layered authentication can improve security by allowing
    infrastructure components to authenticate and authorize use of the
    network path while allowing destination workloads to authenticate and
-   authorize the application-level caller.  However, it can also
+   authorize the application-layer caller.  However, it can also
    introduce ambiguity if the identities are interpreted incorrectly.
    In particular, a destination workload MUST NOT assume that a
    transport-layer identity authenticated by an intermediary is the same
@@ -1029,7 +1029,7 @@ Table of Contents
    are available and relevant.  This allows operators to distinguish the
    workload or infrastructure component that established the secure
    channel from the workload or service identity used for application-
-   level authorization.
+   layer authorization.
 
 3.4.4.  Service Authorization
 
